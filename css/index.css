@@ -1,0 +1,165 @@
+body {
+  overflow: hidden;
+}
+
+main {
+  width: 100%;
+  height: 100%;
+  background-color: #130543;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+main .shapes {
+  position: absolute;
+}
+
+main .shapes, main .forms {
+  box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+}
+
+main .shape1 {
+  width: 800px;
+  height: 500px;
+  background-color: #C60159;
+  transform: rotate(-30deg);
+  top: -280px;
+  left: -230px;
+}
+
+main .shape2 {
+  width: 800px;
+  height: 500px;
+  background-color: #EF0170;
+  transform: rotate(-60deg);
+  top: -280px;
+  left: -600px;
+}
+
+main .shape3 {
+  width: 1500px;
+  height: 500px;
+  background-color: #A7014B;
+  transform: rotate(-20deg);
+  bottom: -250px;
+  right: -200px;
+}
+
+main .shape4 {
+  width: 1500px;
+  height: 600px;
+  background-color: #37236B;
+  transform: rotate(-45deg);
+  bottom: -350px;
+  right: -400px;
+}
+
+main .shape5 {
+  width: 1500px;
+  height: 500px;
+  background-color: #C60159;
+  transform: rotate(-75deg);
+  bottom: -200px;
+  right: -800px;
+}
+
+main .forms {
+  width: 450px;
+  background-color: var(--white);
+  position: relative;
+  z-index: var(--zIndex-paper);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+}
+
+main .forms .formField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+}
+
+main .forms .formField label {
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+main .forms .formField label::before {
+  position: absolute;
+  content: '';
+  width: 0%;
+  height: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--primary-main);
+  z-index: var(--zIndex-1);
+  transition: var(--transition);
+}
+
+main .forms .formField label span {
+  position: absolute;
+  left: 0px;
+  background-color: var(--white);
+  padding: 0 0px;
+  bottom: 16px;
+  transition: var(--transition);
+  transition-delay: 0.2s;
+  color: var(--gray1);
+  cursor: text;
+}
+
+main .forms .formField label input:not([type='submit']) {
+  height: 0px;
+  margin: 0;
+  padding: 0 20px;
+  border: 0;
+  border: 1px solid var(--gray2);
+  transition: var(--transition);
+  position: relative;
+  transition-delay: 0.2s;
+  font-size: 18px;
+}
+
+main .forms .formField label input:focus,
+main .forms .formField label input:not(:placeholder-shown) {
+  height: 100%;
+  border-radius: var(--border-radius);
+  border-bottom: 2px solid var(--gray2);
+  transition-delay: 0s;
+}
+
+main .forms .formField label input:focus + span,
+main .forms .formField label input:not(:placeholder-shown) + span {
+  bottom: 42px;
+  left: 10px;
+  padding: 0 10px;
+  font-size: 13px;
+  color: var(--primary-main);
+  transition-delay: 0s;
+}
+
+main .forms .formField label:has(input:focus)::before,
+main .forms .formField label:has(input:not(:placeholder-shown))::before {
+  width: calc(100% - 20px);
+  transition-delay: 0.2s;
+}
+
+main .forms .formField.verifyField {
+  height: 0px;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+main .forms .formField .btnConfirm {
+  display: none;
+}
