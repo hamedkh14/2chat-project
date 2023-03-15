@@ -1,0 +1,204 @@
+main,
+main .section {
+  gap: calc(var(--padding) * 2);
+}
+
+main {
+  padding: calc(var(--padding) * 2);
+  height: 100%;
+}
+
+main .navbar .navbar-boxLeft,
+main .navbar .navbar-boxRight > div,
+main .chatBox > div {
+  border-radius: var(--border-radius);
+}
+
+main .navbar .navbar-boxLeft,
+main .navbar .navbar-boxRight > div,
+main .chatBox .chatBox-boxRight {
+  background-color: var(--background-alt);
+}
+
+main .navbar {
+  width: calc((var(--initial) * 10) + (var(--initial) * 35));
+}
+
+main .navbar .navbar-boxLeft {
+  width: calc(var(--initial) * 10);
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--padding) * 2);
+  gap: 10px;
+}
+
+main .navbar .navbar-boxRight {
+  gap: 20px;
+}
+
+main .navbar .navbar-boxRight .topBox {
+  height: calc(var(--initial) * 8);
+}
+
+main .navbar .navbar-boxRight .bottomBox {
+  height: 100%;
+}
+
+main .chatBox .chatBox-boxLeft {
+  background-color: var(--background-main);
+}
+
+main .chatBox .chatBox-boxRight {
+  width: calc(var(--initial) * 40);
+}
+
+
+/* Navbar Box Left */
+main .navbar .navbar-boxLeft .navbar-logo {
+  width: 50px;
+  height: 50px;
+  background-color: var(--background-element);
+  border-radius: calc(var(--border-radius) * 2);
+  box-shadow: var(--boxSahdow-2);
+  border: 1px solid var(--border-color);
+  background-image: var(--logo-url);
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+main .navbar .navbar-boxLeft .navbar-middleButtons {
+ gap: 10px;
+}
+
+main .navbar .navbar-boxLeft .navbar-button {
+  width: 40px;
+  height: 40px;
+  background-color: var(--background-alt);
+  border-radius: calc(var(--border-radius) * 2);
+  background-image: var(--icon-dark);
+  background-size: var(--bg-size);
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 0;
+  cursor: pointer;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+body.light main .navbar .navbar-boxLeft .navbar-button {
+  background-image: var(--icon-light);
+}
+
+main .navbar .navbar-boxLeft .navbar-button .tooltip {
+  position: absolute;
+  height: 25px;
+  width: fit-content;
+  min-width: 90px;
+  padding: 0 var(--padding);
+  background-color: var(--background-alt);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  border-radius: var(--border-radius);
+  left: calc(100% + 50px);
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--boxSahdow-0);
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  font-size: 11px;
+}
+
+main .navbar .navbar-boxLeft .navbar-button .tooltip::after {
+  position: absolute;
+  content: '';
+  border-right: 8px solid var(--border-color);
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  left: -12px;
+  border-radius: 4px;
+  box-shadow: var(--boxSahdow-2);
+}
+
+main .navbar .navbar-boxLeft .navbar-button:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  left: calc(100% + 20px);
+}
+
+main .navbar .navbar-boxLeft .navbar-account {
+  gap: 10px;
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar {
+  position: relative;
+}
+main .navbar .navbar-boxLeft .navbar-account .userAvatar .userAvatar-img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+
+  border-radius: calc(var(--border-radius) * 2);
+  border: 1px solid var(--border-color);
+
+  background-image: url(/assets/icon_user.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 60%;
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu {
+  position: absolute;
+  width: 150px;
+  padding: var(--padding) 0;
+  margin: 0;
+  list-style: none;
+
+  background-color: var(--background-element);
+  bottom: 0;
+  left: 80px;
+  opacity: 0;
+  visibility: hidden;
+
+  border-radius: var(--border-radius);
+  box-shadow: var(--boxSahdow-2);
+  
+  transition: var(--transition);
+}
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu.active {
+  left: 50px;
+  opacity: 1;
+  visibility: visible;
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li {
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: calc(var(--padding)) calc(var(--padding) * 2);
+
+  cursor: pointer;
+  color: var(--text-primary);
+  
+  transition: var(--transition);
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li.btnLogout {
+  color: var(--error-main);
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li span {
+  font-size: 13px;
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li i {
+  font-size: 20px;
+}
+
+main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li:hover {
+  background-color: var(--hover-color);
+}
