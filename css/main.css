@@ -24,24 +24,9 @@ main .navbar {
   width: calc((var(--initial) * 10) + (var(--initial) * 35));
 }
 
-main .navbar .navbar-boxLeft {
-  width: calc(var(--initial) * 10);
-  align-items: center;
-  justify-content: space-between;
-  padding: calc(var(--padding) * 2);
-  gap: 10px;
-}
-
 main .navbar .navbar-boxRight {
   gap: 20px;
-}
-
-main .navbar .navbar-boxRight .topBox {
-  height: calc(var(--initial) * 8);
-}
-
-main .navbar .navbar-boxRight .bottomBox {
-  height: 100%;
+  width: 265px;
 }
 
 main .chatBox .chatBox-boxLeft {
@@ -54,6 +39,13 @@ main .chatBox .chatBox-boxRight {
 
 
 /* Navbar Box Left */
+main .navbar .navbar-boxLeft {
+  width: calc(var(--initial) * 10);
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--padding) * 2);
+  gap: 10px;
+}
 main .navbar .navbar-boxLeft .navbar-logo {
   width: 50px;
   height: 50px;
@@ -178,7 +170,6 @@ main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu.acti
 main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li {
   align-items: center;
   gap: 10px;
-  width: 100%;
   padding: calc(var(--padding)) calc(var(--padding) * 2);
 
   cursor: pointer;
@@ -201,4 +192,147 @@ main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li i
 
 main .navbar .navbar-boxLeft .navbar-account .userAvatar ul.userAvatar-menu li:hover {
   background-color: var(--hover-color);
+}
+
+/* Story Box */
+main .navbar .navbar-boxRight .topBox {
+  align-items: center;
+  height: calc(var(--initial) * 10);
+  gap: 10px;
+  overflow-x: auto;
+  padding: 0 var(--padding);
+}
+
+main .navbar .navbar-boxRight .topBox .storyCircle {
+  cursor: pointer;
+  align-items: center;
+  gap: 3px;
+  width: 53px;
+}
+
+main .navbar .navbar-boxRight .topBox .storyCircle div {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background-color: var(--background-element);
+  background-image: var(--bg-user-url);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+main .navbar .navbar-boxRight .topBox .storyCircle p {
+  font-size: 10px;
+  color: var(--text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Chat List Box */
+main .navbar .navbar-boxRight .bottomBox {
+  height: 100%;
+  overflow: hidden;
+}
+
+main .navbar .navbar-boxRight .bottomBox .folderChat {
+  height: 50px;
+  overflow-x: auto;
+}
+
+main .navbar .navbar-boxRight .bottomBox .folderChat .folder {
+  height: 100%;
+  color: var(--text-primary);
+  font-size: 14px;
+  padding: 0 calc(var(--padding) * 2);
+  align-items: center;
+  border-bottom: 1px solid var(--background-main);
+  cursor: pointer;
+}
+
+main .navbar .navbar-boxRight .bottomBox .folderChat .folder.active {
+  border-bottom: 2px solid var(--primary-main);
+  color: var(--primary-main);
+  background-color: var(--background-main);
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList {
+  height: 100%;
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem {
+  cursor: pointer;
+  gap: 10px;
+  padding: var(--padding);
+  transition: var(--transition);
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem.active {
+  background-color: var(--background-element);
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem:not(.active):hover {
+  background-color: var(--background-main);
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--background-element);
+  background-image: var(--bg-user-url);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemAvatar .userStatus {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: var(--success-main);
+  border-radius: 50%;
+  top: 2px;
+  left: 2px;
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemContent {
+  gap: 5px;
+  justify-content: center;
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemContent .userName {
+  color: var(--text-title);
+}
+
+main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemContent .lastMessage {
+  color: var(--text-secondary);
+  font-size: 14px;
+  justify-content: space-between;
+}
+
+main .navbar .navbar-boxRight .bottomBox .searchBox {
+  height: 40px;
+  background-color: var(--background-main);
+  padding: 0 var(--padding);
+  gap: 10px;
+  overflow: hidden;
+  align-items: center;
+}
+
+main .navbar .navbar-boxRight .bottomBox .searchBox input {
+  background: none;
+  border: 0;
+  color: var(--text-primary);
+  height: 100%;
+}
+
+main .navbar .navbar-boxRight .bottomBox .searchBox i.material-symbols-outlined {
+  width: 20px;
+  color: var(--text-secondary);
+  font-size: 22px;
+  cursor: pointer;
 }

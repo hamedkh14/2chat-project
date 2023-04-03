@@ -49,6 +49,7 @@
   --boxSahdow-5: rgba(99, 99, 99, 0.2) 0px 2px 8px 2px;
 
   --error-main: #d32f2f;
+  --success-main: #66bb6a;
 }
 
 /* Colors */
@@ -66,6 +67,7 @@
   --secondary-light: #C99296;
   --secondary-dark: #93494E;
 
+  --text-title: rgba(0, 0, 0, 0.87);
   --text-primary: rgba(0, 0, 0, 0.87);
   --text-secondary: rgba(0, 0, 0, 0.6);
   --text-disabled: rgba(0, 0, 0, 0.38);
@@ -91,6 +93,7 @@
   --secondary-light: #ddbbbd;
   --secondary-dark: #b3656b;
 
+  --text-title: rgba(255, 255, 255, 1);
   --text-primary: rgba(255, 255, 255, 0.87);
   --text-secondary: rgba(255, 255, 255, 0.6);
   --text-disabled: rgba(255, 255, 255, 0.38);
@@ -222,4 +225,21 @@ input[type=number] {
 /* Shadows */
 .boxShadow1 {
   box-shadow:  var(--boxSahdow-0);
+}
+
+/* OverFlow */
+div::-webkit-scrollbar
+{
+  width: 2px;  /* for vertical scrollbars */
+  height: 3px; /* for horizontal scrollbars */
+}
+
+div::-webkit-scrollbar-track
+{
+  background: rgba(255, 255, 255, 0);
+}
+
+div::-webkit-scrollbar-thumb
+{
+  background: rgba(255, 255, 255, 0.5);
 }

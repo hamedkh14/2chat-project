@@ -14,9 +14,9 @@
     <div class="userAvatar">
       <div class="userAvatar-img"></div>
       <ul class="userAvatar-menu">
-        <li class="d-flex"><i class="material-symbols-outlined">info</i> <span>Edit Profile</span></li>
-        <li class="d-flex"><i class="material-symbols-outlined">settings</i> <span>Settings</span></li>
-        <li class="d-flex btnLogout"><i class="material-symbols-outlined">logout</i> <span>Log Out</span></li>
+        <li class="d-flex w-100"><i class="material-symbols-outlined">info</i> <span>Edit Profile</span></li>
+        <li class="d-flex w-100"><i class="material-symbols-outlined">settings</i> <span>Settings</span></li>
+        <li class="d-flex w-100 btnLogout"><i class="material-symbols-outlined">logout</i> <span>Log Out</span></li>
       </ul>
     </div>
   </div>

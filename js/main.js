@@ -36,3 +36,33 @@ $('.userAvatar-img').click(function() {
   }
 });
 
+
+var target = $('.folderChat').get(0);
+$('body').on('wheel', function (e)
+{
+  console.log(o);
+    var o = e.originalEvent;
+    target.scrollLeft += o.deltaX;
+});
+var lastTouch = null;
+window.addEventListener('touchstart', function (event)
+{
+  console.log(1)
+    lastTouch = event.touches[0];
+})
+window.addEventListener('touchend', function (event)
+{
+  console.log(1)
+    lastTouch = null;
+})
+window.addEventListener('touchmove', function (event)
+{
+  console.log(1)
+    var currentTouch = event.changedTouches[0];
+    if (lastTouch)
+        {
+            target.scrollLeft += lastTouch.clientX - currentTouch.clientX;
+        }
+    lastTouch = currentTouch;
+});
+

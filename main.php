@@ -16,7 +16,7 @@
   <main class="d-flex">
     <section class="section navbar d-flex f-noSharink">
       <?php include('temple/navbar_menu.php') ?>
-      <div class="navbar-boxRight d-flex w-100 flex-dir-col">
+      <div class="navbar-boxRight d-flex flex-dir-col">
         <?php include('temple/story.php') ?>
         <?php include('temple/chat_list.php') ?>
       </div>
