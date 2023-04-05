@@ -27,12 +27,13 @@ $('.changeMode').click(function() {
 });
 
 
-// Account Menu
-$('.userAvatar-img').click(function() {
-  if($('.userAvatar-menu').hasClass('active')) {
-    $('.userAvatar-menu').removeClass('active');
+// Toggle Menu
+$('.btnToggleMenu').click(function() {
+  let id = $(this).attr('data-id');
+  if($(`#${id}`).hasClass('active')) {
+    $(`#${id}`).removeClass('active');
   }else {
-    $('.userAvatar-menu').addClass('active');
+    $(`#${id}`).addClass('active');
   }
 });
 
@@ -47,22 +48,29 @@ $('body').on('wheel', function (e)
 var lastTouch = null;
 window.addEventListener('touchstart', function (event)
 {
-  console.log(1)
     lastTouch = event.touches[0];
 })
 window.addEventListener('touchend', function (event)
 {
-  console.log(1)
     lastTouch = null;
 })
 window.addEventListener('touchmove', function (event)
 {
-  console.log(1)
     var currentTouch = event.changedTouches[0];
     if (lastTouch)
         {
             target.scrollLeft += lastTouch.clientX - currentTouch.clientX;
         }
     lastTouch = currentTouch;
+});
+
+// Search Box
+$('.btnSearchBox').click(function() {
+  console.log(1)
+  $('.chatBoxSearch').css({opacity: 1, visibility: 'visible'});
+});
+$('.btnCloseSearchBox').click(function() {
+  console.log(1)
+  $('.chatBoxSearch').css({opacity: 0, visibility: 'hidden'});
 });
 

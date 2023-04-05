@@ -215,11 +215,32 @@ input[type=number] {
 .f-noSharink {
   flex-shrink: 0;
 }
-.w-100 {
+.w-full {
   width: 100%;
+}
+.h-full {
+  height: 100%;
 }
 .flex-dir-col {
   flex-direction: column;
+}
+.jc-center {
+  justify-content: center;
+}
+.jc-spaceBetween {
+  justify-content: space-between;
+}
+.al-center {
+  align-items: center;
+}
+.pointer {
+  cursor: pointer;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
 }
 
 /* Shadows */

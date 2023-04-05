@@ -13,7 +13,7 @@
   <title>2 Chat</title>
 </head>
 <body class="light">
-  <main class="d-flex">
+  <main class="d-flex h-full">
     <section class="section navbar d-flex f-noSharink">
       <?php include('temple/navbar_menu.php') ?>
       <div class="navbar-boxRight d-flex flex-dir-col">
