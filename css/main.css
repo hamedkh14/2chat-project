@@ -275,6 +275,17 @@ main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemContent .u
 main .navbar .navbar-boxRight .bottomBox .chatList .chatItem .chatItemContent .lastMessage {
   color: var(--text-secondary);
   font-size: 14px;
+  height: 24px;
+}
+
+.msgSeen .material-symbols-outlined {
+  color: var(--primary-main);
+  padding: 0;
+  margin: 0;
+  cursor: context-menu;
+}
+.msgSeen .material-symbols-outlined::selection {
+  background-color: var(--background-element);
 }
 
 .searchBox {
@@ -318,6 +329,8 @@ body.dark main .chatBox .chatBox-boxLeft {
   background-image: var(--bg-dark-url);
 }
 
+
+/* Chat box - User Info */
 main .chatBox .chatBox-boxLeft .userInfo {
   height: calc(var(--initial) * 8);
   background-color: var(--background-alt);
@@ -357,7 +370,139 @@ main .chatBox .chatBox-boxLeft .userInfo .userInfo-action .actionBtn:hover {
   background-color: var(--background-main);
 }
 
+/* Chat box - User Message */
+main .chatBox .chatBox-boxLeft .userMessage {
+  padding: var(--padding);
+  gap: 10px;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box1 {
+  flex-direction: column-reverse;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 {
+  width: 50%;
+  gap: 10px;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message {
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  background-color: var();
+  background-color: var(--background-element);
+  color: var(--text-primary);
+  font-size: 14px;
+  gap: 10px;
+  width: fit-content;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgHeader {
+  gap: 10px;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgHeader .msgSendBy {
+  color: var(--primary-main);
+  cursor: pointer;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgHeader .msgDetails {
+  color: var(--text-secondary);
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgBody .msgText {
+  overflow-wrap: break-word;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgFooter {
+  height: 19px;
+  gap: 20px;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgFooter .msgTime {
+  gap: 10px;
+}
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgFooter .msgTime > div {
+  gap: 3px;
+  color: var(--text-disabled);
+}
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgFooter .msgTime > div i {
+  font-size: 18px;
+}
+
+/* Chat box - Send Message */
 main .chatBox .chatBox-boxLeft .formSendMessage {
-  height: calc(var(--initial) * 6);
+  min-height: calc(var(--initial) * 7);
+  height: fit-content;
   background-color: var(--background-main);
+  padding: var(--padding);
+  gap: 10px;
+  align-items: flex-end;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .btnMsgFile,
+main .chatBox .chatBox-boxLeft .formSendMessage .btnBoxEmoji,
+main .chatBox .chatBox-boxLeft .formSendMessage .sendMSG {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .btnMsgFile {
+  background-color: var(--text-title);
+  color: var(--background-default);
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .btnMsgFile i {
+  font-size: 30px;
+  transform: rotate(45deg);
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .formInput {
+  width: 100%;
+  border-radius: 15px;
+  background-color: var(--background-element);
+  align-items: flex-end;
+  gap: 5px;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .btnBoxEmoji {
+  color: var(--text-title);
+  background-color: var(--hover-color);
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .textInput {
+  max-height: 100px;
+  overflow-y: auto;
+  cursor: text;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .textInput div {
+  color: var(--text-title);
+  padding: var(--padding) 0;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .sendMSG {
+  background-color: var(--primary-main);
+  border: 0;
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .sendMSG i {
+  color: var(--white);
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .emojiBox {
+  width: calc(100% - (var(--initial) * 2));
+  bottom: 100%;
+  left: var(--initial);
+  background-color: var(--background-alt);
+  padding: var(--padding);
+  border-radius: var(--border-radius);
+  font-size: 22px;
+  display: none;
+  margin-bottom: 8px;
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .emojiBox div {
+  flex-wrap: wrap;
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .emojiBox span {
+  cursor: pointer;
+}
+main .chatBox .chatBox-boxLeft .formSendMessage .emojiBox span::selection {
+  background-color: var(--background-alt);
 }

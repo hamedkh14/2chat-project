@@ -7,7 +7,7 @@
       <div class="chatItemAvatar d-flex f-noSharink relative" style="--bg-user-url: url(/assets/icon_user_story.png)"><div class="userStatus absolute"></div></div>
       <div class="chatItemContent d-flex flex-dir-col w-full jc-center">
         <div class="w-full userName">Hamed</div>
-        <div class="w-full lastMessage d-flex jc-spaceBetween"><div>Hello my Freinds ...</div><div class="f-noSharink"><img src="/assets/icon_double_check.png" draggable="false" width="23"></div></div>
+        <div class="w-full lastMessage d-flex jc-spaceBetween"><div>Hello my Freinds ...</div><div class="f-noSharink msgSeen"><i class="material-symbols-outlined">done_all</i></div></div>
       </div>
     </div>
   </div>

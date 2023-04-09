@@ -74,3 +74,12 @@ $('.btnCloseSearchBox').click(function() {
   $('.chatBoxSearch').css({opacity: 0, visibility: 'hidden'});
 });
 
+// Emoji
+$('.btnBoxEmoji').click(function() {
+  $('.emojiBox').slideToggle();
+});
+$('.appendEmoji').click(function() {
+  let emoji = $(this).attr('data-emoji');
+  $('#input').append(emoji);
+});
+
