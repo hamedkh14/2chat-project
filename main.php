@@ -17,6 +17,13 @@
     <section class="section navbar d-flex f-noSharink">
       <?php include('temple/navbar_menu.php') ?>
       <div class="navbar-boxRight d-flex flex-dir-col">
+        <div class="al-center jc-spaceBetween headerBox">
+          <div class="actionBtn btnShowMenubar d-flex al-center jc-center pointer">
+            <i class="material-symbols-outlined">menu</i>
+          </div>
+          <img src="/assets/logo2.png" width="80" draggable="false">
+          <div style="width: 35px;"></div>
+        </div>
         <?php include('temple/story.php') ?>
         <?php include('temple/chat_list.php') ?>
       </div>

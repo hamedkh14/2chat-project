@@ -1,3 +1,8 @@
+let docWidth = $(window).width();
+$(window).resize(function () { 
+  docWidth = $(window).width();
+});
+
 // Mode Settings
 function handleDarkMode() {
   if(localStorage.getItem("themeMode")) {
@@ -83,3 +88,37 @@ $('.appendEmoji').click(function() {
   $('#input').append(emoji);
 });
 
+// Toggle info 
+$('.btnToggleInfo').click(function() {
+  if(docWidth <= 1250) {
+    let rightNum = '16px';
+    if(docWidth <= 750) rightNum = '0px';
+    let rightPos = $('.chatBox-boxRight').css('right');
+    if(rightPos != '16px' && rightPos != '0px') {
+      $('.chatBox-boxRight').css({right: rightNum, display: 'flex'});
+    }else {
+      $('.chatBox-boxRight').css({right: '-100%', display: 'none'});
+    }
+  }else {
+    let display = $('.chatBox-boxRight').css('display');
+    if(display == 'none') {
+      $('.chatBox-boxRight').css({right: '16px', display: 'flex'});
+    }else {
+      $('.chatBox-boxRight').css({right: '-100%', display: 'none'});
+    }
+  }
+});
+
+// Toggle Menu bar 
+$('.btnShowMenubar').click(function() {
+  $('.navbar-boxLeft').css({left: '16px'});
+});
+$(document).click(function(e) {
+  let target = e.target;
+  if(!$(target).parent().hasClass('btnShowMenubar')) {
+    $('.navbar-boxLeft').css({left: '-100%'});
+  }
+});
+$('.navbar-boxLeft').click(function(event) {
+  event.stopPropagation();
+});
