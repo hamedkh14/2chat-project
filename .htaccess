@@ -71,6 +71,7 @@ RewriteRule ^(.*)$ https://www.2chat.ir/$1 [L,R=301]
 ErrorDocument 404 /404.php
 
 RewriteCond %{THE_REQUEST} ^[A-Z]+\ /[^?\ ]*\.php[/?\ ]
+RewriteCond %{REQUEST_FILENAME} !test.php
 RewriteRule .*\.php$ 404.php [L]
 
 
