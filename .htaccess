@@ -77,4 +77,7 @@ RewriteRule .*\.php$ 404.php [L]
 
 RewriteBase /
 
-RewriteRule ^صفحه-اصلی$   main.php?act=dashboard
+RewriteRule ^sendSms$   ajax.php?act=sendSms
+RewriteRule ^confirmCode$   ajax.php?act=confirmCode
+
+RewriteRule ^main$   main.php?act=dashboard

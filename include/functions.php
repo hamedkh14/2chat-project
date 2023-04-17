@@ -61,3 +61,25 @@
     return $result->num_rows;
   }
   
+  function sendsms($msg,$pattern,$number)
+  {
+    if($number[0]!="0") $number="0".$number;
+    if(strlen($number)==11)
+    {
+      $client = new SoapClient("http://188.0.240.110/class/sms/wsdlservice/server.php?wsdl"); 
+      $user = "09210711329"; 
+      $pass = "vbji141376"; 
+      $fromNum = "+983000505"; 
+      $toNum = array($number); 
+      $pattern_code = $pattern; 
+      $input_data = $msg; 
+
+      $client->sendPatternSms($fromNum,$toNum,$user,$pass,$pattern_code,$input_data);
+    }
+    else
+    {
+      return false;
+    }
+  }
+?>
+  

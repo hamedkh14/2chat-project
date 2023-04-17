@@ -122,6 +122,17 @@ html, body {
   font-family: 'Rubik', sans-serif;
 }
 
+a {
+  color: var(--primary-main);
+  text-decoration: none;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

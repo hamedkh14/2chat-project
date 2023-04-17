@@ -18,7 +18,7 @@
     <div class="shapes shape3"></div>
     <div class="shapes shape4"></div>
     <div class="shapes shape5"></div>
-
+  
     <div class="forms">
       <img src="/assets/logo2.png" width="180">
       <div class="formField">
@@ -36,6 +36,9 @@
       <div class="formField formAction">
         <button class="buttons btnSubmit btnLogin"><span>LOGIN</span></button>
         <button class="buttons btnSubmit btnConfirm"><span>CONFIRM</span></button>
+      </div>
+      <div class="timer">
+        Send Again: <span></span>
       </div>
     </div>
   </main>

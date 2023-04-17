@@ -163,3 +163,7 @@ main .forms .formField.verifyField {
 main .forms .formField .btnConfirm {
   display: none;
 }
+
+main .forms .timer {
+  display: none;
+}
