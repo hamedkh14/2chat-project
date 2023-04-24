@@ -25,7 +25,7 @@
         if(sqlSelectOneField('users', 'active', 'where phoneNumber="'.$_POST['phone'].'"')) {
           $sms_msg = array( "code" => $randomNumber);
           $pattern_code = "cdf57fhgrv4r54x";
-          sendsms($sms_msg,$pattern_code,$_POST['phone']);
+          // sendsms($sms_msg,$pattern_code,$_POST['phone']);
           echo 1;
         }else {
           echo 0;
@@ -33,14 +33,42 @@
       break;
       case 'confirmCode':
         if(sqlNumRows('users', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'" and tempPassDate>'.time()) == 1) {
-          $_SESSION['userId'] = sqlSelectOneField('users', 'id', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"');
+          
 
           if(sqlSelectOneField('users', 'active', 'where phoneNumber="'.$_POST['phone'].'"')==2) {
-            echo 2;
+            echo '2***'.sqlSelectOneField('users', 'id', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"');
           }else {
-            echo 1;
+            echo '1***'.sqlSelectOneField('users', 'id', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"');
           }
         }
+      break;
+      case 'register':
+        if(sqlNumRows('users', 'where userName="'.$_POST['userName'].'"') != 0) {
+          echo 2;
+        }else {
+          sqlUpdate('users', 'userName="'.$_POST['userName'].'", name="'.$_POST['firstName'].'", family="'.$_POST['lastName'].'", active="1"', 'where phoneNumber="'.$_POST['phone'].'"');
+          echo 1;
+        }
+      break;
+      case 'getChatList':
+        $result = sqlSelect('messages', 'id_sender, id_receiver', 'where id_sender="'.$_POST['userId'].'" or id_receiver="'.$_POST['userId'].'" GROUP BY id_sender, id_receiver');
+        $chatList = array();
+        while($row = $result->fetch_assoc()) {
+          $contactId = ($row['id_sender']!=$_POST['userId'] ? $row['id_sender'] : $row['id_receiver']);
+          $userResult = sqlSelect('users', 'id, IF( ( SELECT count(id) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ), ( SELECT CONCAT(`name`, " ",`family`) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ) , userName ) AS fullName, online, (SELECT message FROM messages where (id_sender="'.$_POST['userId'].'" and id_receiver="'.$contactId.'" and deleteBySender=0) or (id_sender="'.$contactId.'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0)  ORDER BY dateCreate DESC LIMIT 1) AS lastMessage', 'where id="'.$contactId.'"')->fetch_assoc();
+
+          $idExist = false;
+          foreach($chatList as $value) {
+            if($value['id'] == $contactId) {
+              $idExist = true;
+              break;
+            }
+          }
+          
+          if(!$idExist && $userResult) $chatList[] = $userResult;
+        }
+
+        echo  json_encode($chatList);
       break;
     }
   }

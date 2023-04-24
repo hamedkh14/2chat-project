@@ -79,5 +79,9 @@ RewriteBase /
 
 RewriteRule ^sendSms$   ajax.php?act=sendSms
 RewriteRule ^confirmCode$   ajax.php?act=confirmCode
+RewriteRule ^register$   ajax.php?act=register
+
+
+RewriteRule ^getChatList$   ajax.php?act=getChatList
 
 RewriteRule ^main$   main.php?act=dashboard

@@ -122,3 +122,12 @@ $(document).click(function(e) {
 $('.navbar-boxLeft').click(function(event) {
   event.stopPropagation();
 });
+
+// Ajax
+function getChatList() {
+  $.post('/getChatList', {userId: localStorage.getItem('auth')}, function(data) {
+    let parser = JSON.parse(data);
+    console.log(parser)
+  })
+}
+getChatList()

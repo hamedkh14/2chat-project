@@ -11,7 +11,11 @@
   <title>2 Chat</title>
 </head>
 <body class="light">
-
+  <script>
+    if(localStorage.getItem('auth') !== null) {
+      window.location = '/main';
+    }
+  </script>
   <main>
     <div class="shapes shape1"></div>
     <div class="shapes shape2"></div>
@@ -20,22 +24,51 @@
     <div class="shapes shape5"></div>
   
     <div class="forms">
-      <img src="/assets/logo2.png" width="180">
-      <div class="formField">
-        <label>
-          <input type="number" name="phone" id="phoneInput" placeholder=" ">
-          <span>Phone Number</span>
-        </label>
+      <img src="/assets/logo2.png" width="180" draggable="false">
+      <div class="steps step1 w-full">
+        <div class="fieldControl d-flex flex-dir-col w-full">
+          <div class="formField">
+            <label>
+              <input type="number" name="phone" id="phoneInput" placeholder=" ">
+              <span>Phone Number</span>
+            </label>
+          </div>
+          <div class="formField verifyField">
+            <label>
+              <input type="number" name="verifyCode" id="verifyCodeInput" placeholder=" ">
+              <span>Verification Code</span>
+            </label>
+          </div>
+          <div class="formField formAction">
+            <button class="buttons btnSubmit btnLogin"><span>LOGIN</span></button>
+            <button class="buttons btnSubmit btnConfirm"><span>CONFIRM</span></button>
+          </div>
+        </div>
       </div>
-      <div class="formField verifyField">
-        <label>
-          <input type="number" name="verifyCode" id="verifyCodeInput" placeholder=" ">
-          <span>Verification Code</span>
-        </label>
-      </div>
-      <div class="formField formAction">
-        <button class="buttons btnSubmit btnLogin"><span>LOGIN</span></button>
-        <button class="buttons btnSubmit btnConfirm"><span>CONFIRM</span></button>
+      <div class="steps step2 w-full">
+        <div class="fieldControl d-flex flex-dir-col w-full">
+          <div class="formField">
+            <label>
+              <input type="text" name="username" id="usernameInput" placeholder=" ">
+              <span>User name</span>
+            </label>
+          </div>
+          <div class="formField">
+            <label>
+              <input type="text" name="name" id="firstnameInput" placeholder=" ">
+              <span>Your first name</span>
+            </label>
+          </div>
+          <div class="formField">
+            <label>
+              <input type="text" name="family" id="lastnameInput" placeholder=" ">
+              <span>Your last name</span>
+            </label>
+          </div>
+          <div class="formField formAction">
+            <button class="buttons btnSubmit btnRegister"><span>Register</span></button>
+          </div>
+        </div>
       </div>
       <div class="timer">
         Send Again: <span></span>
