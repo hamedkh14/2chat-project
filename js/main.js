@@ -1,7 +1,17 @@
+(function() {
+  console.log(2)
+  localStorage.removeItem('currentChat');
+})()
+
 let docWidth = $(window).width();
 $(window).resize(function () { 
   docWidth = $(window).width();
 });
+
+// Secure
+if(localStorage.getItem('auth') === null) {
+  window.location = '/';
+}
 
 // Mode Settings
 function handleDarkMode() {
@@ -123,11 +133,40 @@ $('.navbar-boxLeft').click(function(event) {
   event.stopPropagation();
 });
 
+// Chat list
+$('.chatList').on('click', '.chatItem', function() {
+  $('.chatItem').removeClass('active');
+  $(this).addClass('active');
+  localStorage.setItem('currentChat', $(this).attr('data-id'));
+})
+
 // Ajax
 function getChatList() {
+  console.log(1)
   $.post('/getChatList', {userId: localStorage.getItem('auth')}, function(data) {
-    let parser = JSON.parse(data);
-    console.log(parser)
-  })
+    const items = JSON.parse(data);
+    $('.chatListLoading').fadeOut(0);
+    $('.chatList').html('');
+
+    items.forEach((item) => {
+      const divElement = document.createElement('div');
+      divElement.classList.add('chatItem', 'w-full', 'd-flex', 'pointer');
+      divElement.setAttribute('data-id', item.id);
+
+      if(localStorage.getItem('currentChat') == item.id) divElement.classList.add('active');
+
+      divElement.innerHTML = `
+        <div class="chatItemAvatar d-flex f-noSharink relative" style="--bg-user-url: url(/assets/icon_user_story.png)">${(item.online * 1) == 1 ? '<div class="userStatus absolute"></div>' : ''}</div>
+        <div class="chatItemContent d-flex flex-dir-col w-full jc-center">
+          <div class="w-full userName">${item.fullName}</div>
+          <div class="w-full lastMessage d-flex jc-spaceBetween"><div>${item.lastMessage}</div><div class="f-noSharink msgSeen"><i class="material-symbols-outlined">done_all</i></div></div>
+        </div>
+      `;
+
+      $('.chatList').append(divElement);
+    });
+  });
+
+  setTimeout(getChatList, 2000);
 }
-getChatList()
+getChatList();

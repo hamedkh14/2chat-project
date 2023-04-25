@@ -13,11 +13,6 @@
   <title>2 Chat</title>
 </head>
 <body class="light">
-  <script>
-    if(localStorage.getItem('auth') === null) {
-      window.location = '/';
-    }
-  </script>
   <main class="d-flex h-full">
     <section class="section navbar d-flex f-noSharink">
       <?php include('temple/navbar_menu.php') ?>

@@ -51,7 +51,7 @@
         }
       break;
       case 'getChatList':
-        $result = sqlSelect('messages', 'id_sender, id_receiver', 'where id_sender="'.$_POST['userId'].'" or id_receiver="'.$_POST['userId'].'" GROUP BY id_sender, id_receiver');
+        $result = sqlSelect('messages', 'id_sender, id_receiver', 'where id_sender="'.$_POST['userId'].'" or id_receiver="'.$_POST['userId'].'" GROUP BY id_sender, id_receiver ORDER BY dateCreate DESC');
         $chatList = array();
         while($row = $result->fetch_assoc()) {
           $contactId = ($row['id_sender']!=$_POST['userId'] ? $row['id_sender'] : $row['id_receiver']);
