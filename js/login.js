@@ -37,14 +37,16 @@ function sendSms(e) {
 }
 
 function confirmCode() {
+  console.log(1)
   let codeInput = $('#verifyCodeInput').val();
   let phoneInput = $("#phoneInput").val();
 
   if(codeInput != '' && typeof (codeInput * 1) == 'number') {
     $.post('/confirmCode', {code: codeInput, phone: phoneInput}, function(data) {
-      data = data.split('***');
-      localStorage.setItem('auth', data[1]);
-      if(data[0]==2) {
+      data = JSON.parse(data);
+      console.log(data);
+      localStorage.setItem('user', JSON.stringify(data));
+      if(data.active == 2) {
         $('.step1').fadeOut(0);
         $('.step2').fadeIn();
         $('.timer').fadeOut(0);
@@ -63,9 +65,11 @@ function register() {
 
   if(userName != '' && firstName != '' && lastName !='') {
     $.post('/register', {userName: userName, firstName: firstName, lastName: lastName, phone: phoneInput}, function(data) {
-      if(data==2) {
+      data = JSON.parse(data);
+      if(data.status == 2) {
         alert('The username is duplicate and you cannot register it.');
-      }else if(data==1) {
+      }else if(data.active == 1) {
+        localStorage.setItem('user', JSON.stringify(data));
         window.location = '/main';
       }
     });

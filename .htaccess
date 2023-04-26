@@ -80,6 +80,7 @@ RewriteBase /
 RewriteRule ^sendSms$   ajax.php?act=sendSms
 RewriteRule ^confirmCode$   ajax.php?act=confirmCode
 RewriteRule ^register$   ajax.php?act=register
+RewriteRule ^getMessages$   ajax.php?act=getMessages
 
 
 RewriteRule ^getChatList$   ajax.php?act=getChatList

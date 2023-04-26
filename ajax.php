@@ -34,20 +34,20 @@
       case 'confirmCode':
         if(sqlNumRows('users', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'" and tempPassDate>'.time()) == 1) {
           
+          $data = sqlSelect('users', 'id, name, family, phoneNumber, userName, active', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"')->fetch_assoc();
 
-          if(sqlSelectOneField('users', 'active', 'where phoneNumber="'.$_POST['phone'].'"')==2) {
-            echo '2***'.sqlSelectOneField('users', 'id', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"');
-          }else {
-            echo '1***'.sqlSelectOneField('users', 'id', 'where phoneNumber="'.$_POST['phone'].'" and tempPass="'.$_POST['code'].'"');
-          }
+          echo json_encode($data);
         }
       break;
       case 'register':
         if(sqlNumRows('users', 'where userName="'.$_POST['userName'].'"') != 0) {
-          echo 2;
+          echo json_encode(["status"=> 2]);
         }else {
           sqlUpdate('users', 'userName="'.$_POST['userName'].'", name="'.$_POST['firstName'].'", family="'.$_POST['lastName'].'", active="1"', 'where phoneNumber="'.$_POST['phone'].'"');
-          echo 1;
+
+          $data = sqlSelect('users', 'id, name, family, phoneNumber, userName, active', 'where phoneNumber="'.$_POST['phone'].'"')->fetch_assoc();
+
+          echo json_encode($data);
         }
       break;
       case 'getChatList':
@@ -69,6 +69,15 @@
         }
 
         echo  json_encode($chatList);
+      break;
+      case 'getMessages':
+        $result = sqlSelect('messages', '*', 'where (id_sender="'.$_POST['userId'].'" and id_receiver="'.$_POST['contactId'].'" and deleteBySender=0) or (id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0) ORDER BY dateCreate ASC');
+        $messages = array();
+        while($row = $result->fetch_assoc()) {
+          $messages[] = $row;
+        }
+
+        echo json_encode($messages);
       break;
     }
   }

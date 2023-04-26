@@ -480,6 +480,9 @@ main .chatBox .chatBox-boxLeft .userMessage {
   padding: var(--padding);
   gap: 10px;
 }
+main .chatBox .chatBox-boxLeft .userMessage.chatRight {
+  flex-direction: row-reverse;
+}
 
 main .chatBox .chatBox-boxLeft .userMessage .chat-box1 {
   flex-direction: column-reverse;

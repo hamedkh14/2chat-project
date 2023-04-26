@@ -12,7 +12,7 @@
 </head>
 <body class="light">
   <script>
-    if(localStorage.getItem('auth') !== null) {
+    if(localStorage.getItem('user') !== null) {
       window.location = '/main';
     }
   </script>

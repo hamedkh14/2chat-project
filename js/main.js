@@ -1,5 +1,7 @@
+const user = JSON.parse(localStorage.getItem('user'));
+let chatList;
+
 (function() {
-  console.log(2)
   localStorage.removeItem('currentChat');
 })()
 
@@ -9,7 +11,7 @@ $(window).resize(function () {
 });
 
 // Secure
-if(localStorage.getItem('auth') === null) {
+if(user === null) {
   window.location = '/';
 }
 
@@ -56,7 +58,6 @@ $('.btnToggleMenu').click(function() {
 var target = $('.folderChat').get(0);
 $('body').on('wheel', function (e)
 {
-  console.log(o);
     var o = e.originalEvent;
     target.scrollLeft += o.deltaX;
 });
@@ -81,11 +82,9 @@ window.addEventListener('touchmove', function (event)
 
 // Search Box
 $('.btnSearchBox').click(function() {
-  console.log(1)
   $('.chatBoxSearch').css({opacity: 1, visibility: 'visible'});
 });
 $('.btnCloseSearchBox').click(function() {
-  console.log(1)
   $('.chatBoxSearch').css({opacity: 0, visibility: 'hidden'});
 });
 
@@ -137,23 +136,24 @@ $('.navbar-boxLeft').click(function(event) {
 $('.chatList').on('click', '.chatItem', function() {
   $('.chatItem').removeClass('active');
   $(this).addClass('active');
-  localStorage.setItem('currentChat', $(this).attr('data-id'));
+  localStorage.setItem('currentChat', JSON.stringify(chatList[$(this).attr('data-id')]));
+
+  getMessage();
 })
 
 // Ajax
 function getChatList() {
-  console.log(1)
-  $.post('/getChatList', {userId: localStorage.getItem('auth')}, function(data) {
-    const items = JSON.parse(data);
+  $.post('/getChatList', {userId: user.id}, function(data) {
+    chatList = JSON.parse(data);
     $('.chatListLoading').fadeOut(0);
     $('.chatList').html('');
 
-    items.forEach((item) => {
+    chatList.forEach((item, index) => {
       const divElement = document.createElement('div');
       divElement.classList.add('chatItem', 'w-full', 'd-flex', 'pointer');
-      divElement.setAttribute('data-id', item.id);
+      divElement.setAttribute('data-id', index);
 
-      if(localStorage.getItem('currentChat') == item.id) divElement.classList.add('active');
+      if(JSON.parse(localStorage.getItem('currentChat'))?.id == item.id) divElement.classList.add('active');
 
       divElement.innerHTML = `
         <div class="chatItemAvatar d-flex f-noSharink relative" style="--bg-user-url: url(/assets/icon_user_story.png)">${(item.online * 1) == 1 ? '<div class="userStatus absolute"></div>' : ''}</div>
@@ -170,3 +170,31 @@ function getChatList() {
   setTimeout(getChatList, 2000);
 }
 getChatList();
+
+function getMessage() {
+  $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id}, (data) => {
+    const messages = JSON.parse(data);
+    console.log(messages)
+    let prevIndex = -1;
+    messages.forEach((msg, index) => {
+      let divElement;
+      if(prevIndex == -1 || msg.id_sender != messages[prevIndex].id_sender) {
+        divElement = document.createElement('div');
+        divElement.classList.add('userMessage', (msg.id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
+        divElement.setAttribute('id', 'MSG-' + msg.id);
+        divElement.innerHTML = `
+          <div class="chat-box1 d-flex">
+            <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
+          </div>
+          <div class="chat-box2 d-flex flex-dir-col"></div>
+        `;
+
+        $('.userChat').append(divElement);
+        
+        prevIndex = index;
+      }else {
+        divElement = document.getElementById(`MSG-${messages[prevIndex].id}`);
+      }
+    })
+  });
+}

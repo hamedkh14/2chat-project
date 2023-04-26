@@ -30,6 +30,7 @@
       </div>
     </div>
     <div class="userChat w-full h-full">
+
       <div class="userMessage chatLeft d-flex w-full">
         <div class="chat-box1 d-flex">
           <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
@@ -108,6 +109,7 @@
           </div>
         </div>
       </div>
+      
     </div>
     <div class="formSendMessage w-full d-flex f-noSharink relative">
       <div class="emojiBox absolute">
