@@ -25,7 +25,7 @@
         if(sqlSelectOneField('users', 'active', 'where phoneNumber="'.$_POST['phone'].'"')) {
           $sms_msg = array( "code" => $randomNumber);
           $pattern_code = "cdf57fhgrv4r54x";
-          // sendsms($sms_msg,$pattern_code,$_POST['phone']);
+          sendsms($sms_msg,$pattern_code,$_POST['phone']);
           echo 1;
         }else {
           echo 0;
@@ -71,13 +71,24 @@
         echo  json_encode($chatList);
       break;
       case 'getMessages':
-        $result = sqlSelect('messages', '*', 'where (id_sender="'.$_POST['userId'].'" and id_receiver="'.$_POST['contactId'].'" and deleteBySender=0) or (id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0) ORDER BY dateCreate ASC');
+        $result = sqlSelect('messages', '*', 'where ( (id_sender="'.$_POST['userId'].'" and id_receiver="'.$_POST['contactId'].'" and deleteBySender=0) or (id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0) ) and dateCreate > '.$_POST['lastMessageTime'].' ORDER BY dateCreate ASC');
         $messages = array();
+        $prevIdSender = 0;
         while($row = $result->fetch_assoc()) {
-          $messages[] = $row;
+          if($prevIdSender != $row['id_sender']) {
+            $messages[] = '';
+          }
+
+          $messages[count($messages) - 1][] = $row;
+
+          $prevIdSender = $row['id_sender'];
         }
 
         echo json_encode($messages);
+      break;
+      case 'sendMessage':
+        sqlInsert('messages', 'id_sender, id_receiver, message, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$_POST['message'].'", "'.time().'"');
+        echo 1;
       break;
     }
   }

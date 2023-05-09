@@ -3,6 +3,7 @@ let chatList;
 
 (function() {
   localStorage.removeItem('currentChat');
+  localStorage.removeItem('lastMessageTime');
 })()
 
 let docWidth = $(window).width();
@@ -137,7 +138,7 @@ $('.chatList').on('click', '.chatItem', function() {
   $('.chatItem').removeClass('active');
   $(this).addClass('active');
   localStorage.setItem('currentChat', JSON.stringify(chatList[$(this).attr('data-id')]));
-
+  $('.userChat').html('');
   getMessage();
 })
 
@@ -171,30 +172,108 @@ function getChatList() {
 }
 getChatList();
 
-function getMessage() {
-  $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id}, (data) => {
+function getMessage() {console.log(20)
+  const lastMessageTime = (localStorage.getItem('lastMessageTime') || 0);
+  console.log(lastMessageTime)
+  $('.userInfo').removeClass('d-none').addClass('d-flex');
+  $('.formSendMessage').removeClass('d-none').addClass('d-flex');
+  
+  $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id, lastMessageTime: lastMessageTime}, (data) => {
     const messages = JSON.parse(data);
     console.log(messages)
-    let prevIndex = -1;
-    messages.forEach((msg, index) => {
-      let divElement;
-      if(prevIndex == -1 || msg.id_sender != messages[prevIndex].id_sender) {
-        divElement = document.createElement('div');
-        divElement.classList.add('userMessage', (msg.id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
-        divElement.setAttribute('id', 'MSG-' + msg.id);
-        divElement.innerHTML = `
-          <div class="chat-box1 d-flex">
-            <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
-          </div>
-          <div class="chat-box2 d-flex flex-dir-col"></div>
-        `;
+    messages.forEach((msgGroup) => {
 
-        $('.userChat').append(divElement);
-        
-        prevIndex = index;
-      }else {
-        divElement = document.getElementById(`MSG-${messages[prevIndex].id}`);
-      }
+      divElement = document.createElement('div');
+      divElement.classList.add('userMessage', (msgGroup[0].id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
+
+      divElement.innerHTML = `
+        <div class="chat-box1 d-flex">
+          <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
+        </div>
+        <div class="chat-box2 d-flex flex-dir-col"></div>
+      `;
+      
+      msgGroup.forEach((msg) => {
+        const msgDivElement = document.createElement('div');
+        msgDivElement.classList.add('message', 'w-full', 'd-flex', 'flex-dir-col');
+
+        const date = new Date(msg.dateCreate * 1000);
+        localStorage.setItem('lastMessageTime', msg.dateCreate);
+
+        msgDivElement.innerHTML = `
+                          <div class="msgHeader d-flex jc-spaceBetween">
+                            <div class="msgSendBy">${ (msg.id_sender == user.id ? 'You' : JSON.parse(localStorage.getItem('currentChat')).fullName) }</div>
+                            <div class="msgDetails"></div>
+                          </div>
+                          <div class="msgBody w-full">
+                            <div class="msgText w-full">${msg.message}</div>
+                          </div>
+                          <div class="msgFooter d-flex jc-spaceBetween">
+                            <div class="msgSeen">
+                              <i class="material-symbols-outlined">done_all</i>
+                            </div>
+                            <div class="msgTime d-flex">
+                              <div class="d-flex">
+                                <span>20</span>
+                                <i class="material-symbols-outlined">visibility</i>
+                              </div>
+                              <div class="d-flex">
+                                ${ date.getHours() + ":" + date.getMinutes() }
+                              </div>
+                            </div>
+                          </div>
+                        `;
+        divElement.children[1].appendChild(msgDivElement);
+      })
+      $('.userChat').append(divElement);
+      console.log('no')
     })
+    
+    setTimeout(getMessage, 1000);
+
+    // let prevIndex = -1;
+    // messages.forEach((msg, index) => {
+    //   let divElement;
+    //   if(prevIndex == -1 || msg.id_sender != messages[prevIndex].id_sender) {
+    //     divElement = document.createElement('div');
+    //     divElement.classList.add('userMessage', (msg.id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
+    //     divElement.setAttribute('id', 'MSG-' + msg.id);
+    //     divElement.innerHTML = `
+    //       <div class="chat-box1 d-flex">
+    //         <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
+    //       </div>
+    //       <div class="chat-box2 d-flex flex-dir-col"></div>
+    //     `;
+
+    //     $('.userChat').append(divElement);
+        
+    //     prevIndex = index;
+    //   }else {
+    //     divElement = document.getElementById(`MSG-${messages[prevIndex].id}`);
+    //   }
+    // })
   });
+}
+
+
+// Send Message
+$('.sendMSG').click(sendMessage);
+
+function sendMessage() {
+  console.log(30)
+  const message = $('#input').html();
+  if(message == "") return false;
+
+  const formData = new FormData();
+  formData.append('message', message);
+  formData.append('id_sender', user.id);
+  formData.append('id_receiver', JSON.parse(localStorage.getItem('currentChat')).id);
+  $.ajax({
+    type: "post",
+    url: '/sendMessage',
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: (data) => {}
+  })
 }

@@ -476,6 +476,9 @@ main .chatBox .chatBox-boxLeft .userInfo .userInfo-action {
 }
 
 /* Chat box - User Message */
+main .chatBox .chatBox-boxLeft .userChat {
+  overflow-y: auto;
+}
 main .chatBox .chatBox-boxLeft .userMessage {
   padding: var(--padding);
   gap: 10px;
@@ -491,6 +494,10 @@ main .chatBox .chatBox-boxLeft .userMessage .chat-box1 {
 main .chatBox .chatBox-boxLeft .userMessage .chat-box2 {
   width: 50%;
   gap: 10px;
+}
+main .chatBox .chatBox-boxLeft .userMessage.chatRight .chat-box2 {
+  align-items: flex-end;
+  justify-content: space-around
 }
 
 main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message {

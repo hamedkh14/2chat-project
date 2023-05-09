@@ -1,7 +1,7 @@
 <section class="section d-flex chatBox w-full">
   <div class="chatBox-boxLeft d-flex w-full flex-dir-col" style="--bg-dark-url: url(/assets/dark_pattern.jpg); --bg-light-url: url(/assets/light_pattern.jpg);">
     
-    <div class="userInfo w-full d-flex al-center f-noSharink jc-spaceBetween relative">
+    <div class="userInfo w-full d-none al-center f-noSharink jc-spaceBetween relative">
       <div class="userInfo-avatar d-flex pointer w-full btnToggleInfo">
         <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
         <div class="info d-flex flex-dir-col jc-center">
@@ -31,7 +31,7 @@
     </div>
     <div class="userChat w-full h-full">
 
-      <div class="userMessage chatLeft d-flex w-full">
+      <!-- <div class="userMessage chatLeft d-flex w-full">
         <div class="chat-box1 d-flex">
           <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
         </div>
@@ -108,10 +108,10 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       
     </div>
-    <div class="formSendMessage w-full d-flex f-noSharink relative">
+    <div class="formSendMessage w-full d-none f-noSharink relative">
       <div class="emojiBox absolute">
         <div class="d-flex">
           <span data-emoji="😀" class="appendEmoji">😀</span>
