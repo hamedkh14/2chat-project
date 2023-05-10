@@ -82,6 +82,7 @@ RewriteRule ^confirmCode$   ajax.php?act=confirmCode
 RewriteRule ^register$   ajax.php?act=register
 RewriteRule ^getMessages$   ajax.php?act=getMessages
 RewriteRule ^sendMessage$   ajax.php?act=sendMessage
+RewriteRule ^typing$   ajax.php?act=typing
 
 
 RewriteRule ^getChatList$   ajax.php?act=getChatList

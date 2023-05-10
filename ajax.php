@@ -84,11 +84,67 @@
           $prevIdSender = $row['id_sender'];
         }
 
+        if(sqlNumRows('users_typing', 'where id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'"')) {
+          $messages[][] = array("typing" => "true");
+        }
+
         echo json_encode($messages);
       break;
       case 'sendMessage':
-        sqlInsert('messages', 'id_sender, id_receiver, message, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$_POST['message'].'", "'.time().'"');
+        $result = sqlInsert('messages', 'id_sender, id_receiver, message, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$_POST['message'].'", "'.time().'"');
+        
+        $direction = 'assets/attachment/';
+
+        // Upload video
+        if(isset($_FILES['attachVideo'])) {
+          $filename = time() . '-' . basename($_FILES['attachVideo']['name']);
+          $tmp_name = $_FILES['attachVideo']['tmp_name'];
+
+          if(move_uploaded_file($tmp_name, $direction.'/videos/' . $filename)) {
+            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "video"');
+          }
+        }
+
+        // Upload audio
+        if(isset($_FILES['attachAudio'])) {
+          $filename = time() . '-' . basename($_FILES['attachAudio']['name']);
+          $tmp_name = $_FILES['attachAudio']['tmp_name'];
+
+          if(move_uploaded_file($tmp_name, $direction.'/audio/' . $filename)) {
+            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "audio"');
+          }
+        }
+
+        // Upload image
+        if(isset($_FILES['attachImage'])) {
+          $filename = time() . '-' . basename($_FILES['attachImage']['name']);
+          $tmp_name = $_FILES['attachImage']['tmp_name'];
+
+          if(move_uploaded_file($tmp_name, $direction.'/images/' . $filename)) {
+            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "image"');
+          }
+        }
+
+        // Upload file
+        if(isset($_FILES['attachDoc'])) {
+          $filename = time() . '-' . basename($_FILES['attachDoc']['name']);
+          $tmp_name = $_FILES['attachDoc']['tmp_name'];
+
+          if(move_uploaded_file($tmp_name, $direction.'/files/' . $filename)) {
+            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "file"');
+          }
+        }
+
         echo 1;
+      break;
+      case 'typing':
+        sqlDelete('users_typing', 'where date < '.(time() - 10));
+        if(sqlNumRows('users_typing', 'where id_sender="'.$_POST['id_sender'].'" and id_receiver="'.$_POST['id_receiver'].'"')) {
+          sqlUpdate('users_typing', 'date="'.time().'"', 'where id_sender="'.$_POST['id_sender'].'" and id_receiver="'.$_POST['id_receiver'].'"');
+        }else {
+          sqlInsert('users_typing', 'id_sender, id_receiver, date', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.time().'"');
+        }
+
       break;
     }
   }

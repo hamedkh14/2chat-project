@@ -111,7 +111,7 @@
       </div> -->
       
     </div>
-    <div class="formSendMessage w-full d-none f-noSharink relative">
+    <div class="formSendMessage w-full d-flex f-noSharink relative">
       <div class="emojiBox absolute">
         <div class="d-flex">
           <span data-emoji="😀" class="appendEmoji">😀</span>
@@ -150,8 +150,27 @@
           <span data-emoji="🙈" class="appendEmoji">🙈</span>
         </div>
       </div>
-      <div class="btnMsgFile d-flex al-center jc-center pointer f-noSharink">
-        <i class="material-symbols-outlined">attach_file</i>
+      <div class="d-flex al-center jc-center f-noSharink flex-dir-col relative">
+        <div class="attachFile d-flex al-center f-noSharink flex-dir-col absolute">
+          <label><div class="d-flex al-center jc-center f-noSharink pointer">
+            <div><i class="material-symbols-outlined">movie</i> <input type="file" name="attachVideo" accept="video/*" hidden> </div>
+          </div></label>
+          <label><div class="d-flex al-center jc-center f-noSharink pointer">
+            <div><i class="material-symbols-outlined">headphones</i> <input type="file" name="attachAudio" accept="audio/*" hidden> </div>
+          </div></label>
+          <label><div class="d-flex al-center jc-center f-noSharink pointer">
+            <div><i class="material-symbols-outlined">image</i> <input type="file" name="attachImage" accept="image/*" hidden> </div>
+          </div></label>
+          <label><div class="d-flex al-center jc-center f-noSharink pointer">
+            <div><i class="material-symbols-outlined">draft</i> <input type="file" name="attachDoc" hidden> </div>
+          </div></label>
+          <div class="getLocation d-flex al-center jc-center f-noSharink pointer">
+            <div><i class="material-symbols-outlined">location_on</i></div>
+          </div>
+        </div>
+        <div class="btnMsgFile d-flex al-center jc-center pointer f-noSharink">
+          <i class="material-symbols-outlined">attach_file</i>
+        </div>
       </div>
       <div class="formInput d-flex w-full h-full">
         <div class="btnBoxEmoji d-flex al-center jc-center pointer f-noSharink">

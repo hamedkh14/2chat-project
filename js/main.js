@@ -140,7 +140,44 @@ $('.chatList').on('click', '.chatItem', function() {
   localStorage.setItem('currentChat', JSON.stringify(chatList[$(this).attr('data-id')]));
   $('.userChat').html('');
   getMessage();
-})
+});
+
+// Scroll Chat Box Handle
+var scrolled = false;
+$('.userChat').scroll(function() {
+  const scrollHeight = $('.userChat').prop("scrollHeight");
+  const scrollTop = $('.userChat').scrollTop() + $('.userChat').height();
+
+  if(scrollTop < scrollHeight) scrolled = true;
+  else scrolled = false;
+});
+
+function scrollHandle() {
+  if(scrolled) return;
+
+  const scrollHeight = $('.userChat').prop("scrollHeight");
+  $('.userChat').scrollTop(scrollHeight);
+}
+
+$('.btnMsgFile').click(function() {
+  $('.attachFile').toggleClass('show');
+});
+
+$('.getLocation').click(function() {
+  // بررسی پشتیبانی مرورگر از مکان یابی
+  if (navigator.geolocation) {
+    // گرفتن موقعیت کاربر
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      // استفاده از موقعیت کاربر
+      console.log("موقعیت کاربر: " + latitude + ", " + longitude);
+    });
+  } else {
+    // در صورتی که مرورگر پشتیبانی نکند
+    alert("مرورگر شما از مکان‌یابی پشتیبانی نمی‌کند.");
+  }
+});
 
 // Ajax
 function getChatList() {
@@ -172,9 +209,8 @@ function getChatList() {
 }
 getChatList();
 
-function getMessage() {console.log(20)
+function getMessage() {
   const lastMessageTime = (localStorage.getItem('lastMessageTime') || 0);
-  console.log(lastMessageTime)
   $('.userInfo').removeClass('d-none').addClass('d-flex');
   $('.formSendMessage').removeClass('d-none').addClass('d-flex');
   
@@ -194,6 +230,11 @@ function getMessage() {console.log(20)
       `;
       
       msgGroup.forEach((msg) => {
+        if(msg.typing) {
+          console.log('typing');
+          return;
+        }
+
         const msgDivElement = document.createElement('div');
         msgDivElement.classList.add('message', 'w-full', 'd-flex', 'flex-dir-col');
 
@@ -226,32 +267,10 @@ function getMessage() {console.log(20)
         divElement.children[1].appendChild(msgDivElement);
       })
       $('.userChat').append(divElement);
-      console.log('no')
     })
     
     setTimeout(getMessage, 1000);
-
-    // let prevIndex = -1;
-    // messages.forEach((msg, index) => {
-    //   let divElement;
-    //   if(prevIndex == -1 || msg.id_sender != messages[prevIndex].id_sender) {
-    //     divElement = document.createElement('div');
-    //     divElement.classList.add('userMessage', (msg.id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
-    //     divElement.setAttribute('id', 'MSG-' + msg.id);
-    //     divElement.innerHTML = `
-    //       <div class="chat-box1 d-flex">
-    //         <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
-    //       </div>
-    //       <div class="chat-box2 d-flex flex-dir-col"></div>
-    //     `;
-
-    //     $('.userChat').append(divElement);
-        
-    //     prevIndex = index;
-    //   }else {
-    //     divElement = document.getElementById(`MSG-${messages[prevIndex].id}`);
-    //   }
-    // })
+    scrollHandle()
   });
 }
 
@@ -260,12 +279,23 @@ function getMessage() {console.log(20)
 $('.sendMSG').click(sendMessage);
 
 function sendMessage() {
-  console.log(30)
   const message = $('#input').html();
-  if(message == "") return false;
+  const attachVideo = $('input[name=attachVideo]')[0].files;
+  const attachAudio = $('input[name=attachAudio]')[0].files;
+  const attachImage = $('input[name=attachImage]')[0].files;
+  const attachDoc = $('input[name=attachDoc]')[0].files;
 
+  if(message == "" && attachVideo.length == 0 && attachAudio.length == 0 && attachImage.length == 0 && attachDoc.length == 0) return false;
+  
   const formData = new FormData();
   formData.append('message', message);
+  if(attachVideo.length) formData.append('attachVideo', attachVideo[0]);
+  if(attachAudio.length) formData.append('attachAudio', attachAudio[0]);
+  if(attachImage.length) formData.append('attachImage', attachImage[0]);
+  if(attachDoc.length) formData.append('attachDoc', attachDoc[0]);
+  
+  console.log(1)
+
   formData.append('id_sender', user.id);
   formData.append('id_receiver', JSON.parse(localStorage.getItem('currentChat')).id);
   $.ajax({
@@ -277,3 +307,10 @@ function sendMessage() {
     success: (data) => {}
   })
 }
+
+// Typeing user
+$('.textInput').on('input', function() {
+  $.post('/typing', {id_sender: user.id, id_receiver: JSON.parse(localStorage.getItem('currentChat')).id}, function(data) {
+    console.log(data)
+  });
+})

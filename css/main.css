@@ -564,10 +564,42 @@ main .chatBox .chatBox-boxLeft .formSendMessage .sendMSG {
 main .chatBox .chatBox-boxLeft .formSendMessage .btnMsgFile {
   background-color: var(--text-title);
   color: var(--background-default);
+  z-index: var(--zIndex-1);
 }
 main .chatBox .chatBox-boxLeft .formSendMessage .btnMsgFile i {
   font-size: 30px;
   transform: rotate(45deg);
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile {
+  height: 0px;
+  width: 40px;
+  background-color: var(--background-alt);
+  border-radius: 20px;
+  bottom: 0;
+  padding: 0;
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile.show {
+  height: 225px;
+  padding: 2.5px;
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile > label > div,
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile > div {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  color: var(--text-title);
+  padding-top: 5px;
+  transition: var(--transition);
+}
+
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile > label > div:hover,
+main .chatBox .chatBox-boxLeft .formSendMessage .attachFile > div:hover {
+  background-color: var(--hover-color);
 }
 
 main .chatBox .chatBox-boxLeft .formSendMessage .formInput {
