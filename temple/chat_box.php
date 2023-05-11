@@ -182,7 +182,6 @@
         <button class="sendMSG d-flex al-center jc-center pointer f-noSharink"><i class="material-symbols-outlined">send</i></button>
       </div>
     </div>
-  
   </div>
   <div class="chatBox-boxRight flex-dir-col f-noSharink">
     <div class="boxRight-top d-flex flex-dir-col jc-center al-center relative">

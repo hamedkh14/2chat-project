@@ -84,14 +84,14 @@
           $prevIdSender = $row['id_sender'];
         }
 
-        if(sqlNumRows('users_typing', 'where id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'"')) {
-          $messages[][] = array("typing" => "true");
+        if(sqlNumRows('users_typing', 'where id_sender="'.$_POST['contactId'].'" and id_receiver="'.$_POST['userId'].'" and date > ' . (time() - 10))) {
+          $messages[][] = array("typing" => true);
         }
 
         echo json_encode($messages);
       break;
       case 'sendMessage':
-        $result = sqlInsert('messages', 'id_sender, id_receiver, message, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$_POST['message'].'", "'.time().'"');
+        $result = sqlInsert('messages', 'id_sender, id_receiver, message, type, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$_POST['message'].'", "text", "'.time().'"');
         
         $direction = 'assets/attachment/';
 
@@ -101,7 +101,7 @@
           $tmp_name = $_FILES['attachVideo']['tmp_name'];
 
           if(move_uploaded_file($tmp_name, $direction.'/videos/' . $filename)) {
-            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "video"');
+            sqlInsert('messages', 'id_sender, id_receiver, fileLink, type, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$filename.'", "video", "'.time().'"');
           }
         }
 
@@ -111,7 +111,7 @@
           $tmp_name = $_FILES['attachAudio']['tmp_name'];
 
           if(move_uploaded_file($tmp_name, $direction.'/audio/' . $filename)) {
-            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "audio"');
+            sqlInsert('messages', 'id_sender, id_receiver, fileLink, type, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$filename.'", "audio", "'.time().'"');
           }
         }
 
@@ -121,7 +121,7 @@
           $tmp_name = $_FILES['attachImage']['tmp_name'];
 
           if(move_uploaded_file($tmp_name, $direction.'/images/' . $filename)) {
-            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "image"');
+            sqlInsert('messages', 'id_sender, id_receiver, fileLink, type, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$filename.'", "image", "'.time().'"');
           }
         }
 
@@ -131,11 +131,11 @@
           $tmp_name = $_FILES['attachDoc']['tmp_name'];
 
           if(move_uploaded_file($tmp_name, $direction.'/files/' . $filename)) {
-            sqlInsert('messages_attach', 'id_message, attachLink, type', '"'.$result.'", "'.$filename.'", "file"');
+            sqlInsert('messages', 'id_sender, id_receiver, fileLink, type, dateCreate', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.$filename.'", "file", "'.time().'"');
           }
         }
 
-        echo 1;
+        echo $tmp_name;
       break;
       case 'typing':
         sqlDelete('users_typing', 'where date < '.(time() - 10));

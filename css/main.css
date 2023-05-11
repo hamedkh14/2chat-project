@@ -1,3 +1,7 @@
+img, video {
+  border-radius: var(--border-radius);
+}
+
 main,
 main .section {
   gap: calc(var(--padding) * 2);
@@ -28,6 +32,7 @@ main .navbar .navbar-boxRight {
   width: 265px;
 }
 
+/* Loading */
 .loading {
   transform: scale(0.5);
 }
@@ -113,6 +118,62 @@ main .navbar .navbar-boxRight {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 20px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--text-title);
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
   }
 }
 
@@ -526,6 +587,29 @@ main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgHeader .msgD
 
 main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgBody .msgText {
   overflow-wrap: break-word;
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgBody .msgText .download {
+  background-color: var(--background-alt);
+  border-radius: var(--border-radius);
+  gap: 10px;
+  width: 200px;
+  padding: var(--padding);
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgBody .msgText .download a div {
+  width: 40px;
+  height: 40px;
+  background-color: var(--background-element);
+  border-radius: var(--border-radius);
+}
+
+main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgBody .msgText .download div .fileTitle {
+  width: 134px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  user-select: none;
 }
 
 main .chatBox .chatBox-boxLeft .userMessage .chat-box2 .message .msgFooter {

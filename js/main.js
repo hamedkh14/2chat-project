@@ -209,18 +209,39 @@ function getChatList() {
 }
 getChatList();
 
+function getFileSize(url)
+{
+  var fileSize = '';
+  var http = new XMLHttpRequest();
+  http.open('HEAD', url, false); // false = Synchronous
+
+  http.send(null); // it will stop here until this http request is complete
+
+  // when we are here, we already have a response, b/c we used Synchronous XHR
+
+  if (http.status === 200) {
+      fileSize = http.getResponseHeader('content-length');
+      return (parseInt(fileSize, 10) / 1024 / 1024).toFixed(1);
+  }
+
+  return 0;
+}
+
 function getMessage() {
   const lastMessageTime = (localStorage.getItem('lastMessageTime') || 0);
   $('.userInfo').removeClass('d-none').addClass('d-flex');
   $('.formSendMessage').removeClass('d-none').addClass('d-flex');
   
   $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id, lastMessageTime: lastMessageTime}, (data) => {
+    $('.typing').remove();
+
     const messages = JSON.parse(data);
-    console.log(messages)
+    // console.log(messages)
     messages.forEach((msgGroup) => {
 
       divElement = document.createElement('div');
       divElement.classList.add('userMessage', (msgGroup[0].id_sender == user.id ? 'chatRight' : 'chatLeft'), 'd-flex', 'w-full');
+      if(msgGroup[0].typing) divElement.classList.add('typing');
 
       divElement.innerHTML = `
         <div class="chat-box1 d-flex">
@@ -231,7 +252,17 @@ function getMessage() {
       
       msgGroup.forEach((msg) => {
         if(msg.typing) {
-          console.log('typing');
+          const msgDivElement = document.createElement('div');
+          msgDivElement.classList.add('message', 'w-full', 'd-flex', 'flex-dir-col');
+
+          msgDivElement.innerHTML = `
+                          <div class="msgBody w-full">
+                            <div class="msgText w-full">
+                              <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+                            </div>
+                          </div>
+                        `;
+          divElement.children[1].appendChild(msgDivElement);
           return;
         }
 
@@ -247,7 +278,35 @@ function getMessage() {
                             <div class="msgDetails"></div>
                           </div>
                           <div class="msgBody w-full">
-                            <div class="msgText w-full">${msg.message}</div>
+                            <div class="msgText w-full">
+                              ${
+                                
+                                (msg.type == "video" ? `
+                                                <video width="100%" height="240" controls>
+                                                  <source src="/assets/attachment/videos/${msg.fileLink}" type="video/mp4">
+                                                </video>
+                                              ` 
+                                : msg.type == "audio" ? `
+                                                <audio controls>
+                                                  <source src="/assets/attachment/audio/${msg.fileLink}" type="audio/mpeg">
+                                                </audio>
+                                              `
+                                : msg.type == "image" ? `
+                                                <img src="/assets/attachment/images/${msg.fileLink}" width="100%">
+                                              `
+                                : msg.type == "file" ? `
+                                                <div class="download d-flex w-full">
+                                                  <a href="/assets/attachment/files/${msg.fileLink}" download class="d-flex f-noSharink"><div class="d-flex al-center jc-center f-noSharink"><i class="material-symbols-outlined">download</i></div></a>
+                                                  <div class="d-flex w-full flex-dir-col jc-spaceBetween">
+                                                    <div class="fileTitle">${msg.fileLink}</div>
+                                                    <div class="fileSize">${getFileSize(`/assets/attachment/files/${msg.fileLink}`)}MB</div>
+                                                  </div>
+                                                </div>
+                                              `
+                                : msg.message)
+
+                              }
+                            </div>
                           </div>
                           <div class="msgFooter d-flex jc-spaceBetween">
                             <div class="msgSeen">
