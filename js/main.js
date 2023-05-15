@@ -1,5 +1,6 @@
 const user = JSON.parse(localStorage.getItem('user'));
 let chatList;
+let xhr;
 
 (function() {
   localStorage.removeItem('currentChat');
@@ -100,24 +101,38 @@ $('.appendEmoji').click(function() {
 
 // Toggle info 
 $('.btnToggleInfo').click(function() {
-  if(docWidth <= 1250) {
-    let rightNum = '16px';
-    if(docWidth <= 750) rightNum = '0px';
-    let rightPos = $('.chatBox-boxRight').css('right');
-    if(rightPos != '16px' && rightPos != '0px') {
-      $('.chatBox-boxRight').css({right: rightNum, display: 'flex'});
-    }else {
-      $('.chatBox-boxRight').css({right: '-100%', display: 'none'});
-    }
-  }else {
-    let display = $('.chatBox-boxRight').css('display');
-    if(display == 'none') {
-      $('.chatBox-boxRight').css({right: '16px', display: 'flex'});
-    }else {
-      $('.chatBox-boxRight').css({right: '-100%', display: 'none'});
-    }
-  }
+  changeChatInfo();
+  toggleInfo();
 });
+$('.boxRight-top').on('click', '.btnToggleInfo', function() {
+  changeChatInfo();
+  toggleInfo();
+});
+
+function toggleInfo(status = 'toggle') {
+  const close = () => {
+    $('.chatBox-boxRight').css({right: '-100%', display: 'none'});
+  }
+
+  const open = () => { 
+    let rightNum = '16';
+    if(docWidth <= 750) rightNum = '0';
+    $('.chatBox-boxRight').css({right: `${rightNum}px`, display: 'flex'});
+  }
+
+  let display = $('.chatBox-boxRight').css('display');
+
+  if(status == 'close') {
+    close();
+    return;
+  }
+
+  if(display == 'none') {
+    open();
+  }else {
+    close();
+  }
+}
 
 // Toggle Menu bar 
 $('.btnShowMenubar').click(function() {
@@ -138,8 +153,10 @@ $('.chatList').on('click', '.chatItem', function() {
   $('.chatItem').removeClass('active');
   $(this).addClass('active');
   localStorage.setItem('currentChat', JSON.stringify(chatList[$(this).attr('data-id')]));
-  $('.userChat').html('');
-  getMessage();
+  localStorage.removeItem('lastMessageTime');
+  getMessage(1);
+  changeProfile();
+  toggleInfo('close');
 });
 
 // Scroll Chat Box Handle
@@ -178,6 +195,49 @@ $('.getLocation').click(function() {
     alert("مرورگر شما از مکان‌یابی پشتیبانی نمی‌کند.");
   }
 });
+
+// Change profile
+function changeProfile() {
+  const userInfo = JSON.parse(localStorage.getItem('currentChat'));
+  const profile = `
+                <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 40px; height: 40px;"></div>
+                <div class="info d-flex flex-dir-col jc-center">
+                  <span>${userInfo.fullName}</span> 
+                  <span>${userInfo.online}</span>
+                </div>
+              `;
+  $('.userInfo-avatar').html(profile);
+}
+
+// Change Chat Info
+function changeChatInfo() {
+  const userInfo = JSON.parse(localStorage.getItem('currentChat'));
+  const info = `
+                <i class="material-symbols-outlined btnClose btnToggleInfo pointer">close</i>
+                <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 80px; height: 80px;"></div>
+                <div class="info d-flex flex-dir-col al-center">
+                  <span class="userName">${userInfo.fullName}</span> 
+                  <span class="onlineTime">${userInfo.online}</span>
+                </div>
+              `;
+  $('.boxRight-top').html(info);
+
+  const bio = `
+                <div class="descItem d-flex flex-dir-col">
+                  <span>${userInfo.phoneNumber}</span>
+                  <label>mobile</label>
+                </div>
+                <div class="descItem d-flex flex-dir-col">
+                  <span>${userInfo.bio}</span>
+                  <label>bio</label>
+                </div>
+                <div class="descItem d-flex flex-dir-col">
+                  <span class="userName">@${userInfo.userName}</span>
+                  <label>Username</label>
+                </div>
+              `;
+  $('.bio').html(bio);
+}
 
 // Ajax
 function getChatList() {
@@ -227,16 +287,15 @@ function getFileSize(url)
   return 0;
 }
 
-function getMessage() {
-  const lastMessageTime = (localStorage.getItem('lastMessageTime') || 0);
+function getMessage(newChat = 0) {
+  const lastMessageTime = ( ( !newChat && localStorage.getItem('lastMessageTime') )  || 0);
   $('.userInfo').removeClass('d-none').addClass('d-flex');
   $('.formSendMessage').removeClass('d-none').addClass('d-flex');
-  
-  $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id, lastMessageTime: lastMessageTime}, (data) => {
+  xhr = $.post('/getMessages', {userId: user.id, contactId: JSON.parse(localStorage.getItem('currentChat')).id, lastMessageTime: lastMessageTime}, (data) => {
+    if(newChat) $('.userChat').html('');
     $('.typing').remove();
 
     const messages = JSON.parse(data);
-    // console.log(messages)
     messages.forEach((msgGroup) => {
 
       divElement = document.createElement('div');
@@ -353,8 +412,6 @@ function sendMessage() {
   if(attachImage.length) formData.append('attachImage', attachImage[0]);
   if(attachDoc.length) formData.append('attachDoc', attachDoc[0]);
   
-  console.log(1)
-
   formData.append('id_sender', user.id);
   formData.append('id_receiver', JSON.parse(localStorage.getItem('currentChat')).id);
   $.ajax({
@@ -369,7 +426,5 @@ function sendMessage() {
 
 // Typeing user
 $('.textInput').on('input', function() {
-  $.post('/typing', {id_sender: user.id, id_receiver: JSON.parse(localStorage.getItem('currentChat')).id}, function(data) {
-    console.log(data)
-  });
+  $.post('/typing', {id_sender: user.id, id_receiver: JSON.parse(localStorage.getItem('currentChat')).id}, function(data) {});
 })

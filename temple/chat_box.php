@@ -111,7 +111,7 @@
       </div> -->
       
     </div>
-    <div class="formSendMessage w-full d-flex f-noSharink relative">
+    <div class="formSendMessage w-full d-none f-noSharink relative">
       <div class="emojiBox absolute">
         <div class="d-flex">
           <span data-emoji="😀" class="appendEmoji">😀</span>
@@ -184,33 +184,13 @@
     </div>
   </div>
   <div class="chatBox-boxRight flex-dir-col f-noSharink">
-    <div class="boxRight-top d-flex flex-dir-col jc-center al-center relative">
-      <i class="material-symbols-outlined btnClose btnToggleInfo pointer">close</i>
-      <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 80px; height: 80px;"></div>
-      <div class="info d-flex flex-dir-col al-center">
-        <span class="userName">Hamed Khodadadi</span> 
-        <span class="onlineTime">Last seen recently</span>
-      </div>
-    </div>
+    <div class="boxRight-top d-flex flex-dir-col jc-center al-center relative"></div>
     <div class="boxRight-middle d-flex">
       <div class="middleItem d-flex">
         <div class="icon">
           <i class="material-symbols-outlined">info</i> 
         </div>
-        <div class="desc d-flex flex-dir-col">
-          <div class="descItem d-flex flex-dir-col">
-            <span>09210711329</span>
-            <label>mobile</label>
-          </div>
-          <div class="descItem d-flex flex-dir-col">
-            <span>Hello World!</span>
-            <label>bio</label>
-          </div>
-          <div class="descItem d-flex flex-dir-col">
-            <span class="userName">@apadana12</span>
-            <label>Username</label>
-          </div>
-        </div>
+        <div class="desc d-flex flex-dir-col bio"></div>
       </div>
     </div>
 

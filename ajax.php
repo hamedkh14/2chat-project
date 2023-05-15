@@ -55,7 +55,7 @@
         $chatList = array();
         while($row = $result->fetch_assoc()) {
           $contactId = ($row['id_sender']!=$_POST['userId'] ? $row['id_sender'] : $row['id_receiver']);
-          $userResult = sqlSelect('users', 'id, IF( ( SELECT count(id) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ), ( SELECT CONCAT(`name`, " ",`family`) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ) , userName ) AS fullName, online, (SELECT message FROM messages where (id_sender="'.$_POST['userId'].'" and id_receiver="'.$contactId.'" and deleteBySender=0) or (id_sender="'.$contactId.'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0)  ORDER BY dateCreate DESC LIMIT 1) AS lastMessage', 'where id="'.$contactId.'"')->fetch_assoc();
+          $userResult = sqlSelect('users', 'id, phoneNumber, bio, userName, IF( ( SELECT count(id) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ), ( SELECT CONCAT(`name`, " ",`family`) from phone_book where id_user="'.$_POST['userId'].'" and id_audience="'.$contactId.'" ) , userName ) AS fullName, online, (SELECT message FROM messages where (id_sender="'.$_POST['userId'].'" and id_receiver="'.$contactId.'" and deleteBySender=0) or (id_sender="'.$contactId.'" and id_receiver="'.$_POST['userId'].'" and deleteByReceiver=0)  ORDER BY dateCreate DESC LIMIT 1) AS lastMessage', 'where id="'.$contactId.'"')->fetch_assoc();
 
           $idExist = false;
           foreach($chatList as $value) {
