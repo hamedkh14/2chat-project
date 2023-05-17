@@ -83,6 +83,8 @@ RewriteRule ^register$   ajax.php?act=register
 RewriteRule ^getMessages$   ajax.php?act=getMessages
 RewriteRule ^sendMessage$   ajax.php?act=sendMessage
 RewriteRule ^typing$   ajax.php?act=typing
+RewriteRule ^online$   ajax.php?act=online
+RewriteRule ^checkOnline$   ajax.php?act=checkOnline
 
 
 RewriteRule ^getChatList$   ajax.php?act=getChatList

@@ -81,5 +81,32 @@
       return false;
     }
   }
+
+  // convert timestamps to date
+  function convertTimestamps($timestamp) {
+    $currentTime = time() - $timestamp;
+    $text = "";
+    switch(1) {
+      case $currentTime < 60:
+        $text = "Online";
+      break;
+      case $currentTime < (60 * 3):
+        $text = "a few moments ago";
+      break;
+      case $currentTime < (60 * 10):
+        $text = floor(($currentTime / 60))." minutes ago";
+      break;
+      case $currentTime < (60 * 60 * 24):
+        $text = date('H:i a', $timestamp);
+      break;
+      case $currentTime < (60 * 60 * 24 * 2):
+        $text = 'Yesterday '.date('H:i a', $timestamp);
+      break;
+      default: 
+        $text = 'a long time ago';
+    }
+
+    return $text;
+  }
 ?>
   

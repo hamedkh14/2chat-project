@@ -157,6 +157,7 @@ $('.chatList').on('click', '.chatItem', function() {
   getMessage(1);
   changeProfile();
   toggleInfo('close');
+  online();
 });
 
 // Scroll Chat Box Handle
@@ -178,6 +179,7 @@ function scrollHandle() {
 
 $('.btnMsgFile').click(function() {
   $('.attachFile').toggleClass('show');
+  online();
 });
 
 $('.getLocation').click(function() {
@@ -207,6 +209,7 @@ function changeProfile() {
                 </div>
               `;
   $('.userInfo-avatar').html(profile);
+  online();
 }
 
 // Change Chat Info
@@ -237,6 +240,7 @@ function changeChatInfo() {
                 </div>
               `;
   $('.bio').html(bio);
+  online();
 }
 
 // Ajax
@@ -254,7 +258,7 @@ function getChatList() {
       if(JSON.parse(localStorage.getItem('currentChat'))?.id == item.id) divElement.classList.add('active');
 
       divElement.innerHTML = `
-        <div class="chatItemAvatar d-flex f-noSharink relative" style="--bg-user-url: url(/assets/icon_user_story.png)">${(item.online * 1) == 1 ? '<div class="userStatus absolute"></div>' : ''}</div>
+        <div class="chatItemAvatar d-flex f-noSharink relative" style="--bg-user-url: url(/assets/icon_user_story.png)">${item.online == 'Online' ? '<div class="userStatus absolute"></div>' : ''}</div>
         <div class="chatItemContent d-flex flex-dir-col w-full jc-center">
           <div class="w-full userName">${item.fullName}</div>
           <div class="w-full lastMessage d-flex jc-spaceBetween"><div>${item.lastMessage}</div><div class="f-noSharink msgSeen"><i class="material-symbols-outlined">done_all</i></div></div>
@@ -390,6 +394,7 @@ function getMessage(newChat = 0) {
     setTimeout(getMessage, 1000);
     scrollHandle()
   });
+  checkOnline();
 }
 
 
@@ -422,9 +427,37 @@ function sendMessage() {
     processData: false,
     success: (data) => {}
   })
+  online();
 }
 
 // Typeing user
 $('.textInput').on('input', function() {
   $.post('/typing', {id_sender: user.id, id_receiver: JSON.parse(localStorage.getItem('currentChat')).id}, function(data) {});
-})
+  online();
+});
+
+// Online user
+function online() {
+  $.post('/online', { userId: user.id });
+}
+
+// Check online user
+function checkOnline() {
+  let currentChat = JSON.parse(localStorage.getItem('currentChat'));
+  $.post('/checkOnline', { currentChatId: currentChat.id }, function(data) {
+    currentChat.online = data;
+    localStorage.setItem('currentChat', JSON.stringify(currentChat));
+  });
+
+  changeProfile();
+  const userInfo = JSON.parse(localStorage.getItem('currentChat'));
+  const info = `
+                <i class="material-symbols-outlined btnClose btnToggleInfo pointer">close</i>
+                <div class="chatItemAvatar" style="--bg-user-url: url(/assets/icon_user_story.png); width: 80px; height: 80px;"></div>
+                <div class="info d-flex flex-dir-col al-center">
+                  <span class="userName">${userInfo.fullName}</span> 
+                  <span class="onlineTime">${userInfo.online}</span>
+                </div>
+              `;
+  $('.boxRight-top').html(info);
+}

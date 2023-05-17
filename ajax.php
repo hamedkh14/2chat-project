@@ -64,7 +64,7 @@
               break;
             }
           }
-          
+          $userResult['online'] = convertTimestamps($userResult['online']);
           if(!$idExist && $userResult) $chatList[] = $userResult;
         }
 
@@ -145,6 +145,14 @@
           sqlInsert('users_typing', 'id_sender, id_receiver, date', '"'.$_POST['id_sender'].'", "'.$_POST['id_receiver'].'", "'.time().'"');
         }
 
+      break;
+      case 'online':
+        sqlUpdate('users', 'online="'.time().'"', 'where id="'.$_POST['userId'].'"');
+      break;
+      case 'checkOnline':
+        $onlineTime = sqlSelectOneField('users', 'online', 'where id="'.$_POST['currentChatId'].'"');
+
+        echo convertTimestamps($onlineTime);
       break;
     }
   }
